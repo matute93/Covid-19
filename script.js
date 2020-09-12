@@ -1,19 +1,25 @@
 const covidStats = 'https://corona-api.com/countries'
 const listCountries = `https://restcountries.herokuapp.com/api/v1/region/`
+let asia= []
+let oceania= []
+let europe= []
+let africa= []
+let america = []
 
 async function fetchingCovidStats() {
   const response = await fetch(covidStats);
   const data = await response.json();
   return data
 }
-fetchingCovidStats();
+
 
 async function fetchingRegions(region) {
   const response = await fetch(`${listCountries}${region}`);
   const dataRegion = await response.json();
+  
   return dataRegion
 }
-
+fetchingRegions('asia')
 
 
 function displayCountries() {
@@ -24,9 +30,12 @@ function displayCountries() {
     let dataRegion= await fetchingRegions(regionBtn[i].value)
       for (let j = 0; j < dataRegion.length; j++) {
       let country=  document.createElement('button')
+      
       country.classList.add('country-btn')
       country.setAttribute('value',dataRegion[j].name.common)
       country.textContent= dataRegion[j].name.common
+      let result= await fetchingCovidStats(); 
+      country.addEventListener('click',()=>{createChart(result,j)})
       document.querySelector('.countries').appendChild(country)
       } 
       },);
@@ -35,74 +44,28 @@ function displayCountries() {
     
 displayCountries()
 
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
+ async function createChart(data,index){
+let ctx = document.getElementById('myChart').getContext('2d');
+let chart = new Chart(ctx, {
+    // The type of chart we want to create
     type: 'bar',
+
+    // The data for our dataset
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['confirmed', 'Deaths', 'Recovered', 'Critical'],
         datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
+            label: 'My First dataset',
+            backgroundColor: ['grey', 'blue', 'yellow', 'green',],
+            borderColor: 'rgb(255, 99, 132),',
+            data: [data.data[index].latest_data.confirmed, data.data[index].latest_data.deaths, data.data[index].latest_data.recovered, data.data[index].latest_data.critical,]
         }]
-    },})
+    },
 
-
-// async function getCovidStast(stats) {
-//   const response = await fetch(stats);
-//   const data = await response.json();
-//   // console.log(data);
-//   for (let i = 0; i < data.data.length; i++) {
-//     let obj = {
-//       name: data.data[i].name,
-//       confirmed: data.data[i].latest_data.confirmed,
-//       critical: data.data[i].latest_data.critical,
-//       deathes: data.data[i].latest_data.deaths,
-//       recovered: data.data[i].latest_data.recovered,
-//       confirmedToday: data.data[i].today.confirmed,
-//       deathsToday: data.data[i].today.deaths,
-//     }
-//     countiresInfo.push(obj)
-
-//   }
-
-// }
-// getCovidStast(covidStats)
-
-
-// let regions = [];
-// async function getCountries(countiresAPI) {
-//   const response = await fetch(countiresAPI);
-//   const data = await response.json();
-//   // console.log(data);
-//   for (let j = 0; j < data.length; j++) {
-//     let obj1 = {
-//       name: data[j].name.common,
-//       region: data[j].region,
-//     }
-//     regions.push(obj1)
-//   }
-// }
-// getCountries(listCountries)
+    // Configuration options go here
+    options: {}
+});
+}
 
 
 
 
-// console.log(countiresInfo);
-// console.log(regions);
