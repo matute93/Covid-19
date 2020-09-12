@@ -1,0 +1,62 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    background: orange;
+    font-size: 30px;
+}
+
+.center{
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    background: wheat;
+}
+.data{
+   width: 100%;
+   height: 90%;
+}
+.status{
+    display: flex;
+    width: 100%;
+    height: 10%;
+    justify-content: center;
+    align-items: flex-end;
+}
+.status-btn{
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    margin: 5px;
+}
+.countries{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+
+}
+
+.bottom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh ;
+    background: wheat;
+}
+.country-btn{
+    width: 100px;
+    height: 35px;
+
+}
+.region-btn{
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+}
